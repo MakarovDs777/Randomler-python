@@ -7,16 +7,16 @@ def generate_random_array(seed, length):
     return np.random.randint(1, 201, size=length).tolist()
 
 # Функция для поиска сида по заданному массиву
-def find_seed(target_array, attempts=1000):
+def find_seed(target_array):
     length = len(target_array)
-    checked_seeds = set()  # Храним проверенные сиды, чтобы избежать повторений
-    
-    for _ in range(attempts):  # Цикл по количеству попыток
+    checked_seeds = set()  # Храним проверенные сиды
+
+    while True:  # Бесконечный цикл до нахождения сида
         seed = random.randint(0, 2**32 - 1)  # Генерируем случайный сид
         if seed in checked_seeds:
-            continue  # Если сид уже был проверен, пробуем другой
+            continue  # Пропускаем, если сид уже был проверен
         
-        checked_seeds.add(seed)
+        checked_seeds.add(seed)  # Запоминаем проверенный сид
         generated_array = generate_random_array(seed, length)
         
         # Вывод информации о текущем сидe и результате сравнения
@@ -25,15 +25,11 @@ def find_seed(target_array, attempts=1000):
             return seed
         else:
             print(f"{seed} 0 {generated_array}")  # Сид не соответствует
-    
-    return None  # Если сид не найден после всех попыток
 
 # Пример использования
 target_array = [10, 20, 30, 40, 50]  # Замените на ваш массив
 
 # Поиск сида для заданного массива
 found_seed = find_seed(target_array)
-if found_seed is not None:
-    print(f"Найден сид: {found_seed}")
-else:
-    print("Сид не найден.")
+print(f"Найден сид: {found_seed}")
+
